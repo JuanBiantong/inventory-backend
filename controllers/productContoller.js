@@ -192,10 +192,6 @@ exports.updateProduct = (req, res) => {
                         error: "Image type should be png or jpg"
                     })
                 }
-            } else {
-                return res.status(400).json({
-                    error: "Please upload product image"
-                })
             }
 
             const result = await Product.findByIdAndUpdate({ _id: id }, {
