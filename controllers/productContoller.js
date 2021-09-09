@@ -88,11 +88,14 @@ exports.createProduct = (req, res) => {
                 product.productImage.data = fs.readFileSync(files.productImage.path)
                 product.productImage.contentType = files.productImage.type
 
-                if (product.productImage.contentType !== ('image/png' || 'image/jpg')) {
+                let allowType = ['image/jpg', 'image/jpeg', 'image/png'];
+                let check = allowType.includes(product.productImage.contentType);
+                if (!check) {
                     return res.status(400).json({
-                        error: "Image type should be png or jpg"
+                        error: "Image type should be png or jpg/jpeg"
                     })
                 }
+
             } else {
                 return res.status(400).json({
                     error: "Please upload product image"
@@ -187,11 +190,17 @@ exports.updateProduct = (req, res) => {
                 product.productImage.data = fs.readFileSync(files.productImage.path)
                 product.productImage.contentType = files.productImage.type
 
-                if (product.productImage.contentType !== ('image/png' || 'image/jpg')) {
+                let allowType = ['image/jpg', 'image/jpeg', 'image/png'];
+                let check = allowType.includes(product.productImage.contentType);
+                if (!check) {
                     return res.status(400).json({
-                        error: "Image type should be png or jpg"
+                        error: "Image type should be png or jpg/jpeg"
                     })
                 }
+            } else {
+                return res.status(400).json({
+                    error: "Please upload product image"
+                })
             }
 
             const result = await Product.findByIdAndUpdate({ _id: id }, {
